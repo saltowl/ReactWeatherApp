@@ -27,7 +27,10 @@ const state = {
 const store = createStore(rootReducer, state, applyMiddleware(thunk));
 
 store.subscribe(() => {
-    localStorage['redux-store'] = JSON.stringify(store.getState().weatherList.cities.map(city => ({id: city.id, name: city.name})));
+    localStorage['redux-store'] = JSON.stringify(
+        store.getState().weatherList.cities
+            .filter(city => typeof city.error === 'undefined')
+            .map(city => ({id: city.id, name: city.name})));
 });
 
 ReactDOM.render(
